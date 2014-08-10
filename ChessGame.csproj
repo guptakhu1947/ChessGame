@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E3906935-0DF7-4E63-990D-757A3FF05C65}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChessGame</RootNamespace>
+    <AssemblyName>ChessGame</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\PieceButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataObjects\Board.cs" />
+    <Compile Include="DataObjects\CoOrdinate.cs" />
+    <Compile Include="DataObjects\Game.cs" />
+    <Compile Include="DataObjects\BoardState.cs" />
+    <Compile Include="DataObjects\Piece.cs" />
+    <Compile Include="DataObjects\Pieces\Bishop.cs" />
+    <Compile Include="DataObjects\Pieces\King.cs" />
+    <Compile Include="DataObjects\Pieces\Knight.cs" />
+    <Compile Include="DataObjects\Pieces\Pawn.cs" />
+    <Compile Include="DataObjects\Pieces\Queen.cs" />
+    <Compile Include="DataObjects\Pieces\Rook.cs" />
+    <Compile Include="DataObjects\Player.cs" />
+    <Compile Include="Enums\Types.cs" />
+    <Compile Include="Factories\PieceFactory.cs" />
+    <Compile Include="GameController.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GameController.Designer.cs">
+      <DependentUpon>GameController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IPiece.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\LinqExtensions.cs" />
+    <EmbeddedResource Include="GameController.resx">
+      <DependentUpon>GameController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Black\Bishop_Black.png" />
+    <Content Include="Images\Player1.png" />
+    <Content Include="Images\Player2.png" />
+    <Content Include="Images\StartGame.png" />
+    <Content Include="Images\White\Bishop_White.png" />
+    <Content Include="Images\White\King_White.png" />
+    <Content Include="Images\Black\King_Black.png" />
+    <Content Include="Images\Black\Knight_Black.png" />
+    <Content Include="Images\White\Knight_White.png" />
+    <Content Include="Images\Black\Pawn_Black.png" />
+    <Content Include="Images\White\Pawn_White.png" />
+    <Content Include="Images\Black\Queen_Black.png" />
+    <Content Include="Images\White\Queen_White.png" />
+    <Content Include="Images\Black\Rook_Black.png" />
+    <Content Include="Images\White\Rook_White.png" />
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,10 @@
+c:\users\kgupta\documents\visual studio 2012\Projects\ChessGame\ChessGame\bin\Debug\ChessGame.exe.config
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Debug\ChessGame.exe.config
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.Properties.Resources.resources
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.csproj.GenerateResource.Cache
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Debug\ChessGame.exe
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Debug\ChessGame.pdb
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.exe
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.pdb
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.csprojResolveAssemblyReference.cache
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Debug\ChessGame.GameController.resources
