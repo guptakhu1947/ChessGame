@@ -1,0 +1,8 @@
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Release\ChessGame.exe.config
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Release\ChessGame.exe
+C:\Users\kgupta\Documents\ChessGame\ChessGame\bin\Release\ChessGame.pdb
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.GameController.resources
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.Properties.Resources.resources
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.csproj.GenerateResource.Cache
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.exe
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.pdb

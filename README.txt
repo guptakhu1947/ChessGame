@@ -4,6 +4,12 @@ Sources:
 http://en.wikipedia.org/wiki/Rules_of_chess
 Images: Google
 
+To Run
+------------------------------------
+1) Extract the folder
+2) Go to <Directory extracted>\ChessGame\ChessGame\bin\Release
+3) Run ChessGame.exe
+
 Description
 ------------------------------------
  1) Designed the classes for implementing a chess game
