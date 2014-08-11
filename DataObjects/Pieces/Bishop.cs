@@ -98,20 +98,5 @@ namespace ChessGame.DataObjects
             }
            return new CoOrdinate(staticIndex, finalIndex);
         }
-
-        private bool CanPieceBeMoved(int finalIndex, Piece foundPiece, int i)
-        {
-            if (i == finalIndex)
-            {
-                //If the destination index color is same as my color, wrong move. 
-                //You cannot kill your own piece.
-                if (foundPiece.Color == Color)
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return false;
-        }
     }
 }
