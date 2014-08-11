@@ -18,7 +18,7 @@ Description
  Draw/Win/Check Rules
  ------------------------------------
  1) If the King of the other player, gets replaced by any player's move, that player wins the game
- 2) If a King is against King, its a Draw
+ 2) If a King is against King, it's a Draw
  3) If the current player's move, changes the state of the board in such a way, that his next move could be a win, it's a Check.
 
  Assumptions
