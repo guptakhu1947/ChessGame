@@ -1,5 +1,6 @@
 ﻿using ChessGame.Controls;
 using ChessGame.DataObjects;
+using ChessGame.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,17 +14,19 @@ using System.Windows.Forms;
 
 namespace ChessGame
 {
+
     public partial class GameController : Form
     {
         #region PrivateMembers
-        private Game _game;
+        private IGame _game;
         private PieceButton _currentSelectedPiece;
         private PlayerName _currentPlayerTurn;
+        private string _currentPlayerName;
         private bool _isFirstClick;
-        Timer _messageFlashTimer = new Timer();
+        private Timer _messageFlashTimer = new Timer();
         private int _boardStateHistoryRowNumber = 1;
 
-        private static string choosePieceColorByPlayer = "PlayerOne, please choose your color.";
+        private static string choosePieceColorByPlayer = "Player One, please choose your color.";
         private static string pieceSelectionText = ",click on the piece you want to play.";
         private static string pieceNextPositionText = ",click on the destination square to put the piece.";
         private static string errorWrongMove = "Wrong move! Please choose again.";
@@ -31,7 +34,11 @@ namespace ChessGame
         private static string moveDetail = "{0} moved {1}";
         private static string restoreMoveDetail = "{0} restored the board to move number = {1}";
         private static string restoreText = "You can restore the board to this move by clicking this button";
+        private static string checkMateText = ",its a CheckMate for you!";
+        private static string drawMessage = "It's a Draw!";
         private static string winMessage = ", you win!!!";
+        private static string playerOne = "Player One";
+        private static string playerTwo = "Player Two";
         #endregion
 
         public GameController()
@@ -48,14 +55,17 @@ namespace ChessGame
             _isFirstClick = true;
             _messageFlashTimer.Enabled = false;
             _currentPlayerTurn = PlayerName.PlayerOne;
+            _currentPlayerName = playerOne;
             Message.Text = choosePieceColorByPlayer;
             WhiteBox.Location = new Point(416, 173);
             BlackBox.Location = new Point(482, 173);
             Message.Location = new Point(413, 119);
             BlackBox.Enabled = true;
             WhiteBox.Enabled = true;
+            BoardStatePanel.Enabled = true;
             BoardStatePanel.Visible = false;
             BoardStateHistoryHeader.Visible = false;
+            CheckMateLabel.Visible = false;
             InitializeBoard();
         }
 
@@ -65,7 +75,7 @@ namespace ChessGame
             _game.SetUp();
             var boardState = _game.GetState();
             DrawChessBoard(boardState);
-            ChessBoard.Enabled = false;           
+            ChessBoard.Enabled = false;
         }
 
         private void DrawChessBoard(History boardState)
@@ -110,38 +120,26 @@ namespace ChessGame
 
             var fromControl = ChessBoard.GetControlFromPosition(pieceBeingMoved.FromCoOrdinate.XCoOrdinate, pieceBeingMoved.FromCoOrdinate.YCoOrdinate);
             var toControl = ChessBoard.GetControlFromPosition(pieceBeingMoved.CurrentCoOrdinate.XCoOrdinate, pieceBeingMoved.CurrentCoOrdinate.YCoOrdinate);
-            var toControlNew = CreateButton(pieceBeingMoved.FromCoOrdinate.XCoOrdinate, pieceBeingMoved.FromCoOrdinate.YCoOrdinate);
-            fromControl.Name = toControl.Name;
-            //Control fromControlNew;
-            //copyControl(fromControl, fromControlNew);
 
+            var toControlNew = CreateButton(pieceBeingMoved.FromCoOrdinate.XCoOrdinate, pieceBeingMoved.FromCoOrdinate.YCoOrdinate);
+            var fromControlNew = CreateButton(pieceBeingMoved.CurrentCoOrdinate.XCoOrdinate, pieceBeingMoved.CurrentCoOrdinate.YCoOrdinate);
+            fromControlNew.Name = toControl.Name;
+
+            var boardState = _game.GetState();
+
+            Piece piece;
+            if (boardState.LayOut.TryGetValue(pieceBeingMoved.CurrentCoOrdinate, out piece))
+            {
+                fromControlNew.Image = piece.Image;
+            }
+            fromControlNew.Piece = piece;
 
             ChessBoard.Controls.Remove(fromControl);
             ChessBoard.Controls.Remove(toControl);
-            //toControl.Dispose();
-            //fromControl.Dispose();
-            ChessBoard.Controls.Add(fromControl, pieceBeingMoved.CurrentCoOrdinate.XCoOrdinate, pieceBeingMoved.CurrentCoOrdinate.YCoOrdinate);
+            toControl.Dispose();
+            fromControl.Dispose();
+            ChessBoard.Controls.Add(fromControlNew, pieceBeingMoved.CurrentCoOrdinate.XCoOrdinate, pieceBeingMoved.CurrentCoOrdinate.YCoOrdinate);
             ChessBoard.Controls.Add(toControlNew, pieceBeingMoved.FromCoOrdinate.XCoOrdinate, pieceBeingMoved.FromCoOrdinate.YCoOrdinate);
-        }
-
-        private void copyControl(Control sourceControl, Control targetControl)
-        {
-            // make sure these are the same
-            if (sourceControl.GetType() != targetControl.GetType())
-            {
-                throw new Exception("Incorrect control types");
-            }
-
-            foreach (PropertyInfo sourceProperty in sourceControl.GetType().GetProperties())
-            {
-                object newValue = sourceProperty.GetValue(sourceControl, null);
-
-                MethodInfo mi = sourceProperty.GetSetMethod(true);
-                if (mi != null)
-                {
-                    sourceProperty.SetValue(targetControl, newValue, null);
-                }
-            }
         }
 
         private void DrawBoardStateHistory()
@@ -154,7 +152,7 @@ namespace ChessGame
             BoardStateHistory.ColumnStyles.Add(cStyle);
             BoardStateHistory.RowStyles.Add(rStyle);
             BoardStateHistory.AutoScroll = false;
-         }
+        }
 
         private void PopulateBoardStateHistoryEnteries(Control firstColumn, Control secondColumn)
         {
@@ -178,13 +176,14 @@ namespace ChessGame
             details.AutoSize = true;
             details.TextAlign = ContentAlignment.BottomLeft;
             details.Anchor = AnchorStyles.None;
+            details.Dock = DockStyle.Left;
             details.MaximumSize = new Size(200, 0);
             details.Font = new System.Drawing.Font(moveNumber.Font.FontFamily.Name, 8);
-            
+
             if (!wasBoardRestored)
-                details.Text = string.Format(moveDetail, _currentPlayerTurn.ToString(), _currentSelectedPiece.Piece.Type);
+                details.Text = string.Format(moveDetail, _currentPlayerName, _currentSelectedPiece.Piece.Type);
             else
-                details.Text = string.Format(restoreMoveDetail, _currentPlayerTurn.ToString(), moveRestored);
+                details.Text = string.Format(restoreMoveDetail, _currentPlayerName, moveRestored);
 
             PopulateBoardStateHistoryEnteries(moveNumber, details);
         }
@@ -201,6 +200,7 @@ namespace ChessGame
              * it is the next player's turn
             */
             _currentPlayerTurn = _game.GetPlayerByColor(history.ColorPlayed) == PlayerName.PlayerOne ? PlayerName.PlayerTwo : PlayerName.PlayerOne;
+            _currentPlayerName = _currentPlayerTurn == PlayerName.PlayerOne ? playerOne : playerTwo;
             DrawChessBoard(history);
             TurnTimer.Enabled = true;
         }
@@ -209,7 +209,6 @@ namespace ChessGame
         private void Cellbutton_Click(object sender, EventArgs e)
         {
             PieceButton pieceButton = (PieceButton)sender;
-
             if (_isFirstClick)
             {
                 _isFirstClick = OnFirstClick(pieceButton);
@@ -231,7 +230,7 @@ namespace ChessGame
             WhiteBox.Visible = true;
             BlackBox.Visible = true;
             Message.Visible = true;
-            StartGame.Text = "Restart";
+            StartGame.Text = "Restart Game";
             StartGame.Click -= StartGame_Click;
             StartGame.Click += Restart_Click;
         }
@@ -287,17 +286,17 @@ namespace ChessGame
             {
                 Message.Location = new Point(450, 204);
                 TakeTurn(PlayerName.PlayerTwo);
-            }  
+            }
         }
 
         private void TakeTurn(PlayerName player)
         {
-            Message.Text = _currentPlayerTurn.ToString() + pieceSelectionText;
+            Message.Text = _currentPlayerName + pieceSelectionText;
         }
 
         private bool OnFirstClick(PieceButton currentPosition)
         {
-            Message.Text = _currentPlayerTurn.ToString() + pieceNextPositionText;
+            Message.Text = _currentPlayerName + pieceNextPositionText;
             _currentSelectedPiece = currentPosition;
             if (_currentSelectedPiece.Piece == null)
             {
@@ -322,22 +321,34 @@ namespace ChessGame
             {
                 RefreshChessBoard();
                 UpdateStateHistory();
-                CheckIsGameOver();
+                CheckGameStatus();
             }
         }
 
-        private void CheckIsGameOver()
+        private void CheckGameStatus()
         {
-            if (_game.IsGameOver())
+            CheckMateLabel.Visible = false;
+            if (_game.IsGameOver() || _game.IsGameDraw())
             {
                 TurnTimer.Stop();
                 ChessBoard.Enabled = false;
                 BoardStateHistory.Enabled = false;
                 Message.Location = new Point(413, 150);
-                Message.Text = _currentPlayerTurn + winMessage;
+                if (_game.IsGameDraw())
+                    Message.Text = drawMessage;
+                else
+                    Message.Text = _currentPlayerName + winMessage;
             }
             else
+            {
                 _currentPlayerTurn = _currentPlayerTurn == PlayerName.PlayerOne ? PlayerName.PlayerTwo : PlayerName.PlayerOne;
+                _currentPlayerName = _currentPlayerTurn == PlayerName.PlayerOne ? playerOne : playerTwo;
+                if (_game.IsCheck())
+                {
+                    CheckMateLabel.Text = _currentPlayerName + checkMateText;
+                    CheckMateLabel.Visible = true;
+                }
+            }
         }
 
         #region Timers

@@ -58,5 +58,50 @@ namespace ChessGame.DataObjects
             FromCoOrdinate = CurrentCoOrdinate;
             CurrentCoOrdinate = coOrdinate;
         }
+
+        protected bool AreCellsEmpty(int staticIndex, int startIndex, int finalIndex, History history, CoOrdinateType coOrdinateType)
+        {
+            Piece foundPiece;
+            if (startIndex < finalIndex)
+            {
+                for (int i = startIndex + 1; i <= finalIndex; i++)
+                {
+                    var checkCoOrdinate = coOrdinateType == CoOrdinateType.X ? new CoOrdinate(staticIndex, i) : new CoOrdinate(i, staticIndex);
+                    if (history.LayOut.TryGetValue(checkCoOrdinate, out foundPiece))
+                    {
+                        if (!CanPieceBeMoved(finalIndex, foundPiece, i))
+                            return false;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = startIndex - 1; i >= finalIndex; i--)
+                {
+                    var checkCoOrdinate = coOrdinateType == CoOrdinateType.X ? new CoOrdinate(staticIndex, i) : new CoOrdinate(i, staticIndex);
+                    if (history.LayOut.TryGetValue(checkCoOrdinate, out foundPiece))
+                    {
+                        if (!CanPieceBeMoved(finalIndex, foundPiece, i))
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        protected bool CanPieceBeMoved(int finalIndex, Piece foundPiece, int i)
+        {
+            if (i == finalIndex)
+            {
+                //If the destination index color is same as my color, wrong move. 
+                //You cannot kill your own piece.
+                if (foundPiece.Color == Color)
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return false;
+        }
     }
 }

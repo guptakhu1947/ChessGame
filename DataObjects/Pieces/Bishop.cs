@@ -9,6 +9,7 @@ namespace ChessGame.DataObjects
 {
     class Bishop : Piece
     {
+        #region Constructors
         public Bishop()
         {
         }
@@ -18,6 +19,7 @@ namespace ChessGame.DataObjects
         {
            
         }
+        #endregion
 
         public override Dictionary<CoOrdinate, Piece> SetUp(Color color)
         {

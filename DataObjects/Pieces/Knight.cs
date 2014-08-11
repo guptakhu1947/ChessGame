@@ -8,6 +8,7 @@ namespace ChessGame.DataObjects
 {
     class Knight : Piece
     {
+        #region Constructors
         public Knight()
         {
         }
@@ -17,6 +18,7 @@ namespace ChessGame.DataObjects
         {
 
         }
+        #endregion
 
         public override Dictionary<CoOrdinate, Piece> SetUp(Color color)
         {
@@ -48,11 +50,11 @@ namespace ChessGame.DataObjects
 
             if (Math.Abs(to.XCoOrdinate - CurrentCoOrdinate.XCoOrdinate) == 2)
             {
-                return Math.Abs(to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 2;
+                return Math.Abs(to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 1;
             }
             else if (Math.Abs(to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 2)
             {
-                return Math.Abs(to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 1;
+                return Math.Abs(to.XCoOrdinate - CurrentCoOrdinate.XCoOrdinate) == 1;
             }
             return false;
         }

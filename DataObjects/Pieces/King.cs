@@ -8,6 +8,7 @@ namespace ChessGame.DataObjects
 {
     class King : Piece
     {
+        #region Constructors
         public King()
         {
         }
@@ -17,6 +18,7 @@ namespace ChessGame.DataObjects
         {
  
         }
+        #endregion
 
         public override Dictionary<CoOrdinate, Piece> SetUp(Color color)
         {
@@ -48,19 +50,53 @@ namespace ChessGame.DataObjects
             }
 
             var diagonalYCoOrdinate = Color == Color.White ? CurrentCoOrdinate.YCoOrdinate + 1 : CurrentCoOrdinate.YCoOrdinate - 1;
+            var diagonalBackwardYCoOrdinate = Color == Color.White ? CurrentCoOrdinate.YCoOrdinate - 1 : CurrentCoOrdinate.YCoOrdinate + 1;
+            
             var leftDiagonalCoOrdinate = new CoOrdinate(CurrentCoOrdinate.XCoOrdinate - 1, diagonalYCoOrdinate);
+            var leftBackwardDiagonalCoOrdinate = new CoOrdinate(CurrentCoOrdinate.XCoOrdinate - 1, diagonalBackwardYCoOrdinate);
+           
             var rightDiagonalCoOrdinate = new CoOrdinate(CurrentCoOrdinate.XCoOrdinate + 1, diagonalYCoOrdinate);
+            var rightBackwardDiagonalCoOrdinate = new CoOrdinate(CurrentCoOrdinate.XCoOrdinate + 1, diagonalBackwardYCoOrdinate);
 
-            if (history.LayOut.TryGetValue(leftDiagonalCoOrdinate, out foundPiece) && foundPiece.Color != Color)
+
+            if (history.LayOut.TryGetValue(leftDiagonalCoOrdinate, out foundPiece))
             {
-                return to.Equals(leftDiagonalCoOrdinate);
-            }
-            if (history.LayOut.TryGetValue(rightDiagonalCoOrdinate, out foundPiece) && foundPiece.Color != Color)
-            {
-                return to.Equals(rightDiagonalCoOrdinate);
+                if (foundPiece.Color == Color)
+                    foundPiece = null;
+                else
+                    return to.Equals(leftDiagonalCoOrdinate);
             }
 
-            return true;
+            if (history.LayOut.TryGetValue(leftBackwardDiagonalCoOrdinate, out foundPiece))
+            {
+                if (foundPiece.Color == Color)
+                    foundPiece = null;
+                else
+                    return to.Equals(leftBackwardDiagonalCoOrdinate);
+            }
+
+            if (history.LayOut.TryGetValue(rightDiagonalCoOrdinate, out foundPiece))
+            {
+                if (foundPiece.Color == Color)
+                    foundPiece = null;
+                else
+                    return to.Equals(rightDiagonalCoOrdinate);
+            }
+
+            if (history.LayOut.TryGetValue(rightBackwardDiagonalCoOrdinate, out foundPiece))
+            {
+                if (foundPiece.Color == Color)
+                    foundPiece = null;
+                else
+                    return to.Equals(rightBackwardDiagonalCoOrdinate);
+            }
+
+            if (foundPiece == null)
+            {
+                return (to.Equals(leftDiagonalCoOrdinate) || to.Equals(leftBackwardDiagonalCoOrdinate) || to.Equals(rightDiagonalCoOrdinate) || to.Equals(rightBackwardDiagonalCoOrdinate));
+            }
+
+            return false;
         }
     }
 }

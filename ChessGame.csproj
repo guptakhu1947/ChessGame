@@ -67,7 +67,11 @@
     <Compile Include="GameController.Designer.cs">
       <DependentUpon>GameController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IBoard.cs" />
+    <Compile Include="Interfaces\IBoardState.cs" />
+    <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="Interfaces\IPiece.cs" />
+    <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\LinqExtensions.cs" />

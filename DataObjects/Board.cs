@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChessGame.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChessGame.DataObjects
 {
-    class Board
+    class Board : IBoard
     {
         /*
         * Setting up piecesByColor so that the board can be set up even if there are no players
@@ -16,13 +17,13 @@ namespace ChessGame.DataObjects
         */
         #region private initializers
         private const int DIMENSION = 8;
-        private Dictionary<Color, IEnumerable<Piece>> _piecesByColor;
-        private BoardState _boardState;
+        private Dictionary<Color, HashSet<Piece>> _piecesByColor;
+        private IBoardState _boardState;
         #endregion
 
-        public int CurrentMoveNumber { get; private set; }
+        public int CurrentMoveNumber { get; set; }
         
-        public IDictionary<Color, IEnumerable<Piece>> PiecesByColor
+        public IDictionary<Color, HashSet<Piece>> PiecesByColor
         {
             get
             {
@@ -34,21 +35,22 @@ namespace ChessGame.DataObjects
         {
             CurrentMoveNumber = 0;
             _boardState = new BoardState();
-            _piecesByColor = new Dictionary<Color, IEnumerable<Piece>>();
+            _piecesByColor = new Dictionary<Color, HashSet<Piece>>();
         }
-       
-        public void SetUp()
+
+        public IBoardState SetUp()
         {
             Dictionary<CoOrdinate, Piece> initialPiecesByCorOrdinate = new Dictionary<CoOrdinate, Piece>(new CoOrdinateCompare());
            _piecesByColor[Color.Black] = SetUpPiecesByColor(Color.Black, initialPiecesByCorOrdinate);
            _piecesByColor[Color.White] = SetUpPiecesByColor(Color.White, initialPiecesByCorOrdinate);
-           _boardState.InitializeState(CurrentMoveNumber, initialPiecesByCorOrdinate);
+           _boardState.InitializeState(CurrentMoveNumber, initialPiecesByCorOrdinate, _piecesByColor);
+           return _boardState;
         }
 
-        private IEnumerable<Piece> SetUpPiecesByColor(Color color, Dictionary<CoOrdinate, Piece> initialPiecesByCorOrdinate)
+        public HashSet<Piece> SetUpPiecesByColor(Color color, Dictionary<CoOrdinate, Piece> initialPiecesByCorOrdinate)
         {
             PieceFactory pieceFactory = new PieceFactory();
-            List<Piece> piecesByColor = new List<Piece>();
+            HashSet<Piece> piecesByColor = new HashSet<Piece>();
             _boardState.SetUpState(pieceFactory.Get(PieceType.Bishop).SetUp(color), initialPiecesByCorOrdinate, piecesByColor);
             _boardState.SetUpState(pieceFactory.Get(PieceType.King).SetUp(color), initialPiecesByCorOrdinate, piecesByColor);
             _boardState.SetUpState(pieceFactory.Get(PieceType.Knight).SetUp(color), initialPiecesByCorOrdinate, piecesByColor);
@@ -58,29 +60,9 @@ namespace ChessGame.DataObjects
             return piecesByColor;
         }
 
-        internal void UpdateState(Piece piece)
+        public void UpdateState(Piece piece)
         {
            CurrentMoveNumber = _boardState.UpdateState(piece, CurrentMoveNumber);
-           GetStatus();
-        }
-
-        /*
-         * Dummy Win position
-         * If King of any color is in co-ordinate (5,5), you win
-         */
-        internal Status GetStatus()
-        {
-            return _boardState.GetStatus(CurrentMoveNumber);
-        }
-
-        internal History GetStateForMove(int moveNumber)
-        {
-            return _boardState.GetStateForMove(moveNumber);
-        }
-
-        internal History GetState()
-        {
-            return _boardState.GetState(CurrentMoveNumber);
         }
     }
 }

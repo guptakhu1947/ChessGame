@@ -8,6 +8,7 @@ namespace ChessGame.DataObjects
 {
     class Queen : Piece
     {
+        #region Constructors
         public Queen()
         {
         }
@@ -17,6 +18,7 @@ namespace ChessGame.DataObjects
         {
  
         }
+        #endregion
 
         public override Dictionary<CoOrdinate, Piece> SetUp(Color color)
         {

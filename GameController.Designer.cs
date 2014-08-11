@@ -49,6 +49,7 @@ namespace ChessGame
             this.BoardStateHistoryHeader = new System.Windows.Forms.TableLayoutPanel();
             this.MoveNumber = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.CheckMateLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerOne)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PlayerTwo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WhiteBox)).BeginInit();
@@ -111,9 +112,9 @@ namespace ChessGame
             this.PlayerOneLabel.ForeColor = System.Drawing.Color.Green;
             this.PlayerOneLabel.Location = new System.Drawing.Point(288, 21);
             this.PlayerOneLabel.Name = "PlayerOneLabel";
-            this.PlayerOneLabel.Size = new System.Drawing.Size(56, 17);
+            this.PlayerOneLabel.Size = new System.Drawing.Size(79, 17);
             this.PlayerOneLabel.TabIndex = 3;
-            this.PlayerOneLabel.Text = "Player1";
+            this.PlayerOneLabel.Text = "Player One";
             // 
             // PlayerTwoLabel
             // 
@@ -122,9 +123,9 @@ namespace ChessGame
             this.PlayerTwoLabel.ForeColor = System.Drawing.Color.Green;
             this.PlayerTwoLabel.Location = new System.Drawing.Point(288, 153);
             this.PlayerTwoLabel.Name = "PlayerTwoLabel";
-            this.PlayerTwoLabel.Size = new System.Drawing.Size(56, 17);
+            this.PlayerTwoLabel.Size = new System.Drawing.Size(78, 17);
             this.PlayerTwoLabel.TabIndex = 4;
-            this.PlayerTwoLabel.Text = "Player2";
+            this.PlayerTwoLabel.Text = "Player Two";
             // 
             // StartGame
             // 
@@ -181,9 +182,9 @@ namespace ChessGame
             this.Message.Location = new System.Drawing.Point(413, 119);
             this.Message.MaximumSize = new System.Drawing.Size(150, 0);
             this.Message.Name = "Message";
-            this.Message.Size = new System.Drawing.Size(129, 34);
+            this.Message.Size = new System.Drawing.Size(133, 34);
             this.Message.TabIndex = 9;
-            this.Message.Text = "PlayerOne, please choose your color.";
+            this.Message.Text = "Player One, please choose your color.";
             this.Message.Visible = false;
             // 
             // TurnTimer
@@ -209,6 +210,7 @@ namespace ChessGame
             // 
             // BoardStatePanel
             // 
+            this.BoardStatePanel.AutoScroll = true;
             this.BoardStatePanel.AutoScrollMinSize = new System.Drawing.Size(0, 227);
             this.BoardStatePanel.Controls.Add(this.BoardStateHistory);
             this.BoardStatePanel.Location = new System.Drawing.Point(631, 74);
@@ -226,10 +228,11 @@ namespace ChessGame
             this.BoardStateHistoryHeader.Controls.Add(this.MoveNumber, 0, 0);
             this.BoardStateHistoryHeader.Controls.Add(this.label1, 1, 0);
             this.BoardStateHistoryHeader.ForeColor = System.Drawing.Color.Black;
-            this.BoardStateHistoryHeader.Location = new System.Drawing.Point(634, 35);
+            this.BoardStateHistoryHeader.Location = new System.Drawing.Point(634, 41);
             this.BoardStateHistoryHeader.Name = "BoardStateHistoryHeader";
             this.BoardStateHistoryHeader.RowCount = 1;
             this.BoardStateHistoryHeader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55.31915F));
+            this.BoardStateHistoryHeader.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.BoardStateHistoryHeader.Size = new System.Drawing.Size(220, 36);
             this.BoardStateHistoryHeader.TabIndex = 12;
             // 
@@ -256,6 +259,18 @@ namespace ChessGame
             this.label1.Text = "Details";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // CheckMateLabel
+            // 
+            this.CheckMateLabel.AutoSize = true;
+            this.CheckMateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckMateLabel.ForeColor = System.Drawing.Color.IndianRed;
+            this.CheckMateLabel.Location = new System.Drawing.Point(413, 4);
+            this.CheckMateLabel.MaximumSize = new System.Drawing.Size(150, 0);
+            this.CheckMateLabel.Name = "CheckMateLabel";
+            this.CheckMateLabel.Size = new System.Drawing.Size(0, 17);
+            this.CheckMateLabel.TabIndex = 10;
+            this.CheckMateLabel.Visible = false;
+            // 
             // GameController
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -264,6 +279,7 @@ namespace ChessGame
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(932, 356);
+            this.Controls.Add(this.CheckMateLabel);
             this.Controls.Add(this.BoardStateHistoryHeader);
             this.Controls.Add(this.BoardStatePanel);
             this.Controls.Add(this.Message);
@@ -314,6 +330,7 @@ namespace ChessGame
         private System.Windows.Forms.TableLayoutPanel BoardStateHistoryHeader;
         private System.Windows.Forms.Label MoveNumber;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label CheckMateLabel;
 
     }
 }

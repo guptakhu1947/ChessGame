@@ -8,8 +8,7 @@ namespace ChessGame.DataObjects
 {
     class Pawn : Piece
     {
-        private const int NUMBEROFPAWNS = 8;
-       
+        #region Constructors
         public Pawn()
         {
         }
@@ -18,6 +17,9 @@ namespace ChessGame.DataObjects
         {
  
         }
+        #endregion
+
+        private const int NUMBEROFPAWNS = 8;
 
         public override Dictionary<CoOrdinate, Piece> SetUp(Color color)
         {
@@ -32,7 +34,12 @@ namespace ChessGame.DataObjects
             return pieces;
         }
 
-        //Pawn can only move straight ahead           
+       /*
+        * A pawn moves straight forward one square, if that square is vacant. If it has not yet moved, 
+        * a pawn also has the option of moving two squares straight forward, provided both squares are vacant. 
+        * Pawns cannot move backwards.
+        * Pawns are the only pieces that capture differently from how they move. A pawn can capture an enemy piece on either of the two squares diagonally in front of the pawn (but cannot move to those squares if they are vacant).
+        */
         public override bool IsValidMove(CoOrdinate to, History history)
         {
             Piece foundPiece;
@@ -42,11 +49,36 @@ namespace ChessGame.DataObjects
                 //The next cell should be empty if moving forward
                 if (!history.LayOut.TryGetValue(to, out foundPiece))
                 {
-                    //TPwan cannot move backwards
-                    if (Color == Color.White)
-                        return (to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 1;
+                    int maxMoveMagnitude = CurrentCoOrdinate == FromCoOrdinate ? 2 : 1;
+                            
+                    if (maxMoveMagnitude == 2 && Math.Abs(to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 2)
+                    {
+                        if (Color == Color.White)
+                        {
+                            var diffInCoOrdinate = to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate;
+                            if (diffInCoOrdinate > 0 && diffInCoOrdinate <= maxMoveMagnitude)
+                            {
+                                return AreCellsEmpty(CurrentCoOrdinate.XCoOrdinate, CurrentCoOrdinate.YCoOrdinate, to.YCoOrdinate-1, history, CoOrdinateType.X);           
+                            }
+                        }
+                        else
+                        {
+                            var diffInCoOrdinate = CurrentCoOrdinate.YCoOrdinate - to.YCoOrdinate;
+                            if (diffInCoOrdinate > 0 && diffInCoOrdinate <= maxMoveMagnitude)
+                            {
+                                return AreCellsEmpty(CurrentCoOrdinate.XCoOrdinate, to.YCoOrdinate, CurrentCoOrdinate.YCoOrdinate-1, history, CoOrdinateType.X);                                       
+                            }
+                        }
+                        
+                    }
                     else
-                        return (CurrentCoOrdinate.YCoOrdinate - to.YCoOrdinate) == 1;
+                    {
+                        //Pwan cannot move backwards
+                        if (Color == Color.White)
+                            return (to.YCoOrdinate - CurrentCoOrdinate.YCoOrdinate) == 1;
+                        else
+                            return (CurrentCoOrdinate.YCoOrdinate - to.YCoOrdinate) == 1;
+                    }
                 }
             }
 
