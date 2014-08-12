@@ -75,7 +75,13 @@ namespace ChessGame.DataObjects
                     if (history.LayOut.TryGetValue(checkCoOrdinate, out foundPiece))
                     {
                         if (!CanPieceBeMoved(finalIndex, foundPiece, i))
-                            return checkCoOrdinate;
+                        {
+                            if (i != finalIndex)
+                            {
+                                return checkCoOrdinate;
+                            }
+                            else return new CoOrdinate(-1, -1);
+                        }
                     }                   
                 }
             }
@@ -92,7 +98,13 @@ namespace ChessGame.DataObjects
                     if (history.LayOut.TryGetValue(checkCoOrdinate, out foundPiece))
                     {
                         if (!CanPieceBeMoved(finalIndex, foundPiece, i))
-                            return checkCoOrdinate;
+                        {
+                            if (i != finalIndex)
+                            {
+                                return checkCoOrdinate;
+                            }
+                            else return new CoOrdinate(-1, -1);
+                        }
                     }
                 }
             }

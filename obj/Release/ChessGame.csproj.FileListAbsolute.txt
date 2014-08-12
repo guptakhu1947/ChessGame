@@ -6,3 +6,4 @@ C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.Properties.R
 C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.csproj.GenerateResource.Cache
 C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.exe
 C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.pdb
+C:\Users\kgupta\Documents\ChessGame\ChessGame\obj\Release\ChessGame.csprojResolveAssemblyReference.cache
