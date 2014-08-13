@@ -29,5 +29,26 @@ namespace ChessGame
                     throw new ArgumentException("Invalid type", type.GetType().Name);
             }
         }
+
+        public Piece Get(PieceType type, Color color, CoOrdinate coOrdinate)
+        {
+            switch (type)
+            {
+                case PieceType.Bishop:
+                    return new Bishop(color,coOrdinate);
+                case PieceType.King:
+                    return new King(color, coOrdinate);
+                case PieceType.Knight:
+                    return new Knight(color, coOrdinate);
+                case PieceType.Pawn:
+                    return new Pawn(color, coOrdinate);
+                case PieceType.Queen:
+                    return new Queen(color, coOrdinate);
+                case PieceType.Rook:
+                    return new Rook(color, coOrdinate);
+                default:
+                    throw new ArgumentException("Invalid type", type.GetType().Name);
+            }
+        }
     }
 }

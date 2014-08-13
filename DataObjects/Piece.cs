@@ -49,8 +49,11 @@ namespace ChessGame.DataObjects
             FromCoOrdinate = CurrentCoOrdinate = coOrdinate;
             var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);   
             string path = Path.Combine(@"..\..\Images", Color.ToString());
-            Image = Image.FromFile(Path.Combine(path, Type + "_" + Color.ToString() + ".png"));
-            Image = (Image)(new Bitmap(Image, new Size(30,30)));
+            if (File.Exists(path))
+            {
+                Image = Image.FromFile(Path.Combine(path, Type + "_" + Color.ToString() + ".png"));
+                Image = (Image)(new Bitmap(Image, new Size(30, 30)));
+            }
         }
 
         public void Move(CoOrdinate coOrdinate)
