@@ -47,13 +47,11 @@ namespace ChessGame.DataObjects
             Type = name;
             Color = color;
             FromCoOrdinate = CurrentCoOrdinate = coOrdinate;
-            var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);   
+            var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string path = Path.Combine(@"..\..\Images", Color.ToString());
-            if (File.Exists(path))
-            {
-                Image = Image.FromFile(Path.Combine(path, Type + "_" + Color.ToString() + ".png"));
-                Image = (Image)(new Bitmap(Image, new Size(30, 30)));
-            }
+            Image = Image.FromFile(Path.Combine(path, Type + "_" + Color.ToString() + ".png"));
+            Image = (Image)(new Bitmap(Image, new Size(30, 30)));
+
         }
 
         public void Move(CoOrdinate coOrdinate)
